@@ -1,0 +1,223 @@
+<link rel="import" href="../polymer-channels-card/polymer-channels-card.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../iron-pages/iron-pages.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+
+<dom-module id="card-how-to-create-card-composer">
+  <template>
+    <div>
+      <paper-button on-click="onSendClick" raised>Send</paper-button>
+    </div>
+  </template>
+  <script>
+    class CardHowToCreateCardComposer extends PolymerChannelsCardComposer {
+      static get is() { return 'card-how-to-create-card-composer'; }
+      // Add other script support needed to assemble the initialization data based on user interaction in the composer
+      onSendClick() {
+        this.send({ /* enter your initialization data here that will be used to initialize 'data' property in the viewer */ });
+      }
+    }
+    window.customElements.define(CardHowToCreateCardComposer.is, CardHowToCreateCardComposer);
+  </script>
+</dom-module>
+
+<dom-module id="card-how-to-create-card-viewer">
+  <template>
+    <style is="custom-style" include="iron-flex iron-flex-alignment">
+      .container {
+        border: 1px solid #aaa;
+        width: 300px;
+        margin: 0 auto;
+        padding: 5px;
+      }
+
+      #pages {
+        min-height: 450px;
+      }
+
+      neon-animated {
+        height: 400px;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+      }
+
+      .step {
+        font-size: 32px;
+        font-weight: 500;
+      }
+
+      .explain {
+        font-size: 16px;
+        margin-bottom: 20px;
+      }
+
+      .description {
+        font-size: 12px;
+        margin-bottom: 10px;
+      }
+
+      .code {
+        margin: 5px 0;
+        padding: 5px;
+        background-color: #f6f8fa;
+        font-size: 10px;
+        font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+      }
+
+      .image {
+        text-align: center;
+      }
+
+      .imageMedium {
+        width: 80%;
+        height: auto;
+        border: 1px solid #aaa;
+        box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+      }
+
+      .imageSmall {
+        width: 50%;
+        height: auto;
+        border: 1px solid #aaa;
+        box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+      }
+    </style>
+    <div class="container flex" on-click="onClick">
+      <iron-pages id="pages" selected="{{page}}" entry-animation="slide-from-right-animation" exit-animation="slide-left-animation">
+        <div class="page">
+          <div class="step">Create A Card</div>
+          <div class="explain">7 Easy Steps</div>
+          <div class="description">
+            <div>Anyone can create and deploy a new type of card for Channels without approval from anyone.</div>
+            <ol>
+              <li>Install tools</li>
+              <li>Create a GitHub repo</li>
+              <li>Setup your project folder</li>
+              <li>Edit your card</li>
+              <li>Test</li>
+              <li>Release</li>
+              <li>Use it!</li>
+            </ol>
+          </div>
+          <div class="description">Click 'Next' to walk through these steps in more detail.</div>
+        </div>
+        <div class="page">
+          <div class="step">Step 1</div>
+          <div class="explain">Install tools</div>
+          <div class="description">Develop your card on your desktop or laptop. You'll need a Git client, Node.js, and a text editor.</div>
+          <div class="description">Then install the tools you will need:</div>
+          <div class="code">npm install -g bower polymer-cli channels-cli</div>
+        </div>
+        <div class="page">
+          <div class="step">Step 2</div>
+          <div class="explain">Create a GitHub repository</div>
+          <div class="description">Go to <a href="https://github.com">GitHub</a>, sign in, and create a new repository for your new card.</div>
+          <div class="description">Choose a repository name that will be your card's unique name, such as 'my-card-example'. It must include at least
+            one hyphen.</div>
+          <div class="description">Make sure the repository is Public and initialize it with a README. You should also choose an appropriate licence,
+            such as MIT.</div>
+          <div class="image">
+            <img class="imageMedium" src$="[[importPath]]images/create-repository.jpg">
+          </div>
+        </div>
+        <div class="page">
+          <div class="step">Step 3</div>
+          <div class="explain">Setup your project folder</div>
+          <div class="description">On your machine, clone the repository into a new folder.</div>
+          <div class="code">git clone https://github.com/jdoe/my-card-example</div>
+          <div class="description">In the new folder, initialize the project:</div>
+          <div class="code">
+            <div>cd my-card-example</div>
+            <div>channels init</div>
+          </div>
+          <div class="description">This will prompt you for information and then will scaffold the project for you.</div>
+        </div>
+        <div class="page">
+          <div class="step">Step 4</div>
+          <div class="explain">Edit your card</div>
+          <div class="description">Now you customize the card to make it do whatever you want by editing the contents of the HTML file that matches
+            your card name, such as my-card-example.html.</div>
+          <div class="description">A card is defined using HTML and Javascript as a pair of <a href="https://www.webcomponents.org/introduction">web components</a>            -- one for a composer (used when a new card instance is being posted) and one for a viewer (used when your card
+            is opened from a feed).</div>
+          <div class="description">You modify the HTML inside the &lt;template&gt; tag to define the layout of the component. You modify the Javascript
+            inside the &lt;script&gt; tag to control its behavior.
+          </div>
+          <div class="description">If you want to use any script or web component dependencies, make sure that you install them using bower.</div>
+        </div>
+        <div class="page">
+          <div class="step">Step 5</div>
+          <div class="explain">Test</div>
+          <div class="description">You can (and should) test your card before you deploy it. At a command prompt enter:</div>
+          <div class="code">polymer serve</div>
+          <div class="description">This will create a local server that will host your component. It returns two URLs. Copy the 'resuable components'
+            URL into a web browser.</div>
+          <div class="description">Your browser will show you your composer. When you click on the 'Send' button, it will post the card and a set
+            of viewers will appear using the component you defined, simulating three different users viewing your card simultaneously.
+            If your card uses shared state, these cards will be synchronized accordingly.
+          </div>
+          <div class="description">Edit your card definition and refresh your browser until your components work as you intend.</div>
+        </div>
+        <div class="page">
+          <div class="step">Step 6</div>
+          <div class="explain">Release</div>
+          <div class="description">When your card works the way you want it to, you are ready to release it. First, commit your changes and push to
+            GitHub:
+          </div>
+          <div class="code">
+            <div>git commit</div>
+            <div>git push</div>
+          </div>
+          <div class="description">Then go to GitHub and create a release. Channels will only accept cards that have at least one release.</div>
+          <div class="description">You can assign any version number you want, such as '0.0.1'.</div>
+          <div class="image">
+            <img class="imageSmall" src$="[[importPath]]images/create-release.jpg">
+          </div>
+        </div>
+        <div class="page">
+          <div class="step">Step 7</div>
+          <div class="explain">Use it!</div>
+          <div class="description">You're now ready to try posting a card using your new card design.</div>
+          <div class="description">In your Channels client, click the button to create a new card. When choosing the card type, choose 'Advanced',
+            and enter the GitHub URL for your card repository, such as https://github.com/jdoe/my-card-example.
+          </div>
+        </div>
+      </iron-pages>
+      <div class="horizontal layout">
+        <paper-button id="prev" on-click="onPrev">&lt;&lt; Back</paper-button>
+        <div class="flex"></div>
+        <paper-button id="next" on-click="onNext">Next &gt;&gt;</paper-button>
+      </div>
+    </div>
+  </template>
+  <script>
+    class CardHowToCreateCardViewer extends PolymerChannelsCardViewer {
+      static get is() { return 'card-how-to-create-card-viewer'; }
+      static get properties() {
+        return {
+          data: Object,
+          channel: Object,
+          page: {
+            type: Number,
+            value: function () { return 0; }
+          }
+        };
+      }
+      ready() {
+        super.ready();
+        this.refreshButtons();
+      }
+      onPrev() {
+        this.$.pages.selectPrevious();
+        this.refreshButtons();
+      }
+      onNext() {
+        this.$.pages.selectNext();
+        this.refreshButtons();
+      }
+      refreshButtons() {
+        this.$.prev.style.display = this.page === 0 ? 'none' : '';
+        this.$.next.style.display = this.page === 7 ? 'none' : '';
+      }
+    }
+    window.customElements.define(CardHowToCreateCardViewer.is, CardHowToCreateCardViewer);
+  </script>
+</dom-module>
